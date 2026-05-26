@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import AliasChoices, BaseModel, Field
 
 
 # ── createTask ──────────────────────────────────────────────
@@ -24,7 +24,10 @@ class TaskObject(BaseModel):
 
 
 class CreateTaskRequest(BaseModel):
-    clientKey: str
+    clientKey: str = Field(
+        default="",
+        validation_alias=AliasChoices("clientKey", "client_key", "apiKey", "key"),
+    )
     task: TaskObject
 
 
@@ -38,7 +41,10 @@ class CreateTaskResponse(BaseModel):
 # ── getTaskResult ───────────────────────────────────────────
 
 class GetTaskResultRequest(BaseModel):
-    clientKey: str
+    clientKey: str = Field(
+        default="",
+        validation_alias=AliasChoices("clientKey", "client_key", "apiKey", "key"),
+    )
     taskId: str
 
 
